@@ -14,16 +14,16 @@ typedef struct line         //parameters of the lines
     float b;
 } Line_param;
 
-void getParamSize(Coord* size);                        //Fedorishcheva Nastya  получаем параметры рисунка
+void getParamSize(Coord* size);                        
 
-void getParamHor(float* yhor);                    //Kharkevich Mikhalina получаем параметры линии горизонта
+void getParamHor(float* yhor);                    
 
-void getParamSun(Coord* sun);               //Kharkevich Mikhalina параметры солнца
+void getParamSun(Coord* sun);               
 
-void getParamColumn(Coord* column_vertex, Coord* column_bottom);         //Fedorishcheva Nastya параметры колонны( верхняя и нижняя точка)
+void getParamColumn(Coord* column_vertex, Coord* column_bottom);         
 
-void lineParam(Coord column_param, Coord sun_or_projection, Line_param* line_1_2);                        //Fedorishcheva Nastya  параметры вспомогательных линий для построения тени
-char shadowParam(Line_param line_1, Line_param line_2, Coord column_bottom, float column_vertex_y, Coord size, Coord sun, float yhor, Coord* shadow);                     //Kharkevich Mikhalina   построение дальней точки тени
+void lineParam(Coord column_param, Coord sun_or_projection, Line_param* line_1_2);                        
+char shadowParam(Line_param line_1, Line_param line_2, Coord column_bottom, float column_vertex_y, Coord size, Coord sun, float yhor, Coord* shadow);      
 
 
 
@@ -56,11 +56,11 @@ int main()
     flag = shadowParam(line_1, line_2, column_bottom, column_vertex.y, size, sun, yhor, &shadow);                //building a shadow
     switch (flag)
     {
-        case 1:                                                                     //Все адекватно (тень внутри рисунка)
+        case 1:                                                                     
             printf("%.2f %.2f\n", shadow.x, shadow.y);
             break;
 
-        case 2:                                                                         //Невозможно получить
+        case 2:                                                                       
             printf("NO\n");
             break;
     }
@@ -68,7 +68,7 @@ int main()
     return 0;
 }
 
- void getParamSize(Coord* size)                                    //we get the dimensions of the image (Nastya)
+ void getParamSize(Coord* size)                                    //we get the dimensions of the image
 {
     Coord size1;
     scanf("%f%f", &size1.x, &size1.y);
@@ -76,14 +76,14 @@ int main()
     size -> y = size1.y;
 }
 
-void getParamHor(float* yhor)                             //we get the parameters of the horizon (Mikhalina)
+void getParamHor(float* yhor)                             //we get the parameters of the horizon
 {
      float yhor1;
      scanf("%f", &yhor1);
      *yhor = yhor1;
 }
 
-void getParamSun(Coord* sun)                            //we get the parameters of the sun(Mikhalina)
+void getParamSun(Coord* sun)                            //we get the parameters of the sun
 {
     Coord sun1;
     scanf("%f%f", &sun1.x, &sun1.y);
@@ -91,7 +91,7 @@ void getParamSun(Coord* sun)                            //we get the parameters 
     sun -> y = sun1.y;
 }
 
-void getParamColumn(Coord* column_vertex, Coord* column_bottom)                          //we get the parameters of the column(Nastya)
+void getParamColumn(Coord* column_vertex, Coord* column_bottom)                          //we get the parameters of the column
 {
     Coord vertex;
     Coord bottom;
@@ -103,7 +103,7 @@ void getParamColumn(Coord* column_vertex, Coord* column_bottom)                 
     column_bottom -> y = bottom.y;
 }
 
-void lineParam(Coord column_param, Coord sun_or_projection, Line_param* line_1_2)                //the beginning of shadow construction(Nastya)
+void lineParam(Coord column_param, Coord sun_or_projection, Line_param* line_1_2)                //the beginning of shadow construction
 {
     float kk;
     line_1_2 -> k = ((column_param.y - sun_or_projection.y) / (column_param.x - sun_or_projection.x));
@@ -111,17 +111,17 @@ void lineParam(Coord column_param, Coord sun_or_projection, Line_param* line_1_2
     line_1_2 -> b = (column_param.y - kk * column_param.x);
 }
 
-char shadowParam(Line_param line_1, Line_param line_2, Coord column_bottom, float column_vertex_y, Coord size, Coord sun, float yhor, Coord* shadow)                //building a shadow(Mikhalina and Nastya)
+char shadowParam(Line_param line_1, Line_param line_2, Coord column_bottom, float column_vertex_y, Coord size, Coord sun, float yhor, Coord* shadow)                //building a shadow
 {
     float x, y;
 
-    if (column_bottom.x == 0 || column_bottom.x == size.x || column_bottom.y == size.y)          //палка на границе рисунка
+    if (column_bottom.x == 0 || column_bottom.x == size.x || column_bottom.y == size.y)          
         return 2;
 
-    if (column_bottom.y == yhor && sun.y > yhor)                                // Палка на горизонте, причем солнце ниже горизонта
+    if (column_bottom.y == yhor && sun.y > yhor)                                
         return 2;
 
-    if (column_bottom.x == sun.x)                   //Солнце и палка на одной вертикальной линии
+    if (column_bottom.x == sun.x)               
     {
         if (sun.y >= column_bottom.y)
             return 2;
@@ -133,9 +133,9 @@ char shadowParam(Line_param line_1, Line_param line_2, Coord column_bottom, floa
         }
     }
 
-    if (sun.y >= yhor)                               //Солнце ниже горизонта
+    if (sun.y >= yhor)                               
         return 2;
-    if (sun.y < yhor)                                        //Солнце выше горизонта
+    if (sun.y < yhor)                                        
     {
         if (sun.y > column_vertex_y)
         {
